@@ -1,0 +1,70 @@
+---
+name: swiss-army-knife
+
+releases:
+- name: swiss-army-knife
+  version: latest
+
+stemcells:
+- alias: ubuntu
+  os: ubuntu-xenial
+  version: latest
+
+instance_groups:
+- name: swiss-army-knife
+  instances: 1
+  azs: [ vsphere ]
+  vm_type: small
+  persistent_disk_type: default
+  stemcell: ubuntu
+  networks:
+  - name: vsphere-guest
+  jobs:
+  - name: knife
+    release: swiss-army-knife
+    properties:
+      ctl: |
+        #!/bin/bash -ex
+        LOG_DIR=/var/vcap/sys/log/knife
+        RUN_DIR=/var/vcap/sys/run/knife
+        mkdir -p $RUN_DIR $LOG_DIR
+        chown -R vcap:vcap $RUN_DIR $LOG_DIR
+        exec >> $LOG_DIR/knife.stdout.log \
+          2>> $LOG_DIR/knife.stderr.log
+        PIDFILE=${RUN_DIR}/pid
+        case $1 in
+          start)
+            echo 1 > $PIDFILE
+            date +"%Y/%m/%d %H:%M:%S: STDOUT ctl start knife"
+            date +"%Y/%m/%d %H:%M:%S: STDERR ctl start knife" 2>&1
+
+            echo "I love my dog!"
+
+            ;;
+          stop)
+            date +"%Y/%m/%d %H:%M:%S: STDOUT ctl stop knife"
+            date +"%Y/%m/%d %H:%M:%S: STDERR ctl stop knife" 2>&1
+            rm -f $PIDFILE
+            ;;
+        esac
+      drain: |
+        #!/bin/bash
+        date >&2
+        echo 0
+      # pre_start output is at /var/vcap/sys/log/swiss-army-knife/pre-start.stdout.log
+      post_deploy: |
+        #!/bin/bash
+        date
+      post_start: |
+        #!/bin/bash
+        date
+      pre_start: |
+        #!/bin/bash
+        date
+
+update:
+  canaries: 1
+  max_in_flight: 1
+  serial: false
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

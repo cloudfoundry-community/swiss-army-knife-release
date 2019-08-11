@@ -1,0 +1,70 @@
+---
+name: knife
+
+templates:
+  ctl.erb: bin/ctl
+  drain.erb: bin/drain
+  pre-start.erb: bin/pre-start
+  post-start.erb: bin/post-start
+  post-deploy.erb: bin/post-deploy
+
+packages: []
+
+properties:
+  pre_start:
+    description: a pre-start script, run before any job is started
+    default: |
+      #!/bin/bash -e
+      date +"%Y/%m/%d %H:%M:%S: STDOUT pre-start knife"
+      date +"%Y/%m/%d %H:%M:%S: STDERR pre-start knife" >&2
+  post_start:
+    description: a post-start script, run after all jobs have been started
+    default: |
+      #!/bin/bash -e
+      date +"%Y/%m/%d %H:%M:%S: STDOUT post-start knife"
+      date +"%Y/%m/%d %H:%M:%S: STDERR post-start knife" >&2
+  post_deploy:
+    description: a post-deploy script, must enable enable_post_deploy on Director
+    default: |
+      #!/bin/bash -e
+      date +"%Y/%m/%d %H:%M:%S: STDOUT post-deploy knife"
+      date +"%Y/%m/%d %H:%M:%S: STDERR post-deploy knife" >&2
+  drain:
+    description: a drain script
+    default: |
+      #!/bin/bash -e
+      date +"%Y/%m/%d %H:%M:%S: drain STDERR" >&2
+      # do NOT output anything other than '0' to STDOUT
+      echo 0
+  ctl:
+    description: a job script, usually meant for long-running tasks
+    default: |
+      #!/bin/bash -ex
+      LOG_DIR=/var/vcap/sys/log/knife
+      RUN_DIR=/var/vcap/sys/run/knife
+      mkdir -p $RUN_DIR $LOG_DIR
+      chown -R vcap:vcap $RUN_DIR $LOG_DIR
+      exec >> $LOG_DIR/knife.stdout.log \
+        2>> $LOG_DIR/knife.stderr.log
+      PIDFILE=${RUN_DIR}/pid
+
+      case $1 in
+        start)
+          # if you have a long-running process, echo this shell's PID to the PIDFILE echo $$ > $PIDFILE
+          # and `exec` your long-running process
+          # if your process exits immediately, use systemd's PID instead to trick monit
+          echo 1 > $PIDFILE
+
+          date +"%Y/%m/%d %H:%M:%S: STDOUT ctl start knife"
+          date +"%Y/%m/%d %H:%M:%S: STDERR ctl start knife" 2>&1
+
+          ;;
+        stop)
+          date +"%Y/%m/%d %H:%M:%S: STDOUT ctl stop knife"
+          date +"%Y/%m/%d %H:%M:%S: STDERR ctl stop knife" 2>&1
+
+          kill -9 `cat $PIDFILE` # don't worry; systemd never dies
+          rm -f $PIDFILE
+
+          ;;
+      esac

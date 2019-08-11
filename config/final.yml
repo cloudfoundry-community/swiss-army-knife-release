@@ -1,0 +1,6 @@
+---
+name: swiss-army-knife
+blobstore:
+  provider: gcs
+  options:
+    bucket_name: swiss-army-knife-release
