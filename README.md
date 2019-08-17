@@ -14,7 +14,7 @@ In the releases section of your BOSH manifest:
 ```yaml
 - name: swiss-army-knife
   sha1: e0ac6bdd4ae1a0674e4e0d3b5c9c3b7f8921ff62
-  url: https://github.com/cunnie/swiss-army-knife-release/releases/download/1.0.0/swiss-army-knife-release-1.0.0.tgz
+  url: https://github.com/cloudfoundry-community/swiss-army-knife-release/releases/download/1.0.0/swiss-army-knife-release-1.0.0.tgz
   version: 1.0.0
 ```
 
