@@ -1,0 +1,14 @@
+name: swiss-army-knife
+version: 1.0.0
+commit_hash: 48564b7
+uncommitted_changes: false
+jobs:
+- name: knife
+  version: e22f526e029e2ad9f67c2792b6d65a065eccd5acf829773ce8af1792ab8793e4
+  fingerprint: e22f526e029e2ad9f67c2792b6d65a065eccd5acf829773ce8af1792ab8793e4
+  sha1: sha256:169e4189144e050bbdb86f280dccf186ac97cce7ecd4ed658b93463b8e0d15d3
+  packages: []
+license:
+  version: eefa533b44473426f0d39cb7de4a5de1342863955201ca83ddaefe4a0c96d174
+  fingerprint: eefa533b44473426f0d39cb7de4a5de1342863955201ca83ddaefe4a0c96d174
+  sha1: sha256:7057e74039fb180b7aae8a508c330a7b81b71fab8488be2590620dad73a9dbf5
