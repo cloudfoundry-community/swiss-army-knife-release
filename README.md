@@ -1,10 +1,11 @@
 ## Swiss Army Knife BOSH Release
 
-The Swiss Army Knife [†](#dagger) BOSH Release enables
-customizing the five [BOSH jobs lifecycle](https://bosh.io/docs/job-lifecycle/)
-stages.  Its single job, `knife`, has five properties (`ctl`,
-`drain`, `pre_start`, `post_start`, and `post_deploy`) which correspond to the
-lifecycle stages. Each property can be set to an arbitrary shell script.
+The Swiss Army Knife [†](#dagger) BOSH release enables VM customization beyond
+what many single-purpose BOSH releases allow; it enables the customization of
+the five [BOSH jobs lifecycle](https://bosh.io/docs/job-lifecycle/) stages.  Its
+single job, `knife`, has five properties (`ctl`, `drain`, `pre_start`,
+`post_start`, and `post_deploy`) which correspond to the lifecycle stages. Each
+property can be set to an arbitrary shell script.
 
 ## Quick Start
 
@@ -12,8 +13,8 @@ In the releases section of your BOSH manifest:
 
 ```yaml
 - name: swiss-army-knife
-  sha1: 4c485708c0d18439087b3675244135cb3a135aaf
-  url: https://s3.amazonaws.com/bosh-compiled-release-tarballs/bosh-270.4.0-ubuntu-xenial-456.3-20190731-215637-531978373-20190731215643.tgz
+  sha1: e0ac6bdd4ae1a0674e4e0d3b5c9c3b7f8921ff62
+  url: https://github.com/cunnie/swiss-army-knife-release/releases/download/1.0.0/swiss-army-knife-release-1.0.0.tgz
   version: 1.0.0
 ```
 
